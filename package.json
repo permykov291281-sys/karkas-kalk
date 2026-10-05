@@ -1,0 +1,45 @@
+{
+  "name": "karkas-calc",
+  "productName": "КаркасКальк",
+  "version": "1.0.0",
+  "description": "Калькулятор стоимости каркасного дома",
+  "author": "Пермяков Сергей",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win dir --x64 && node build/make-installer.js",
+    "dist:linux": "electron-builder --linux AppImage"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "resedit": "^2.0.2"
+  },
+  "build": {
+    "appId": "ru.karkas.calc",
+    "productName": "КаркасКальк",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "data/**/*",
+      "node_modules/xlsx/**/*"
+    ],
+    "win": {
+      "target": [
+        "dir"
+      ],
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "executableName": "KarkasCalc"
+    },
+    "afterPack": "build/afterPack.js"
+  }
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'">
+  <title>КаркасКальк — калькулятор каркасного дома</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><img src="icon.png" alt=""><div><b>КаркасКальк</b><small>стоимость каркасного дома</small></div></div>
+    <button class="nav-btn active" data-view="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Главная</button>
+    <button class="nav-btn" data-view="calc">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h2M12 18h4"/></svg>Расчёт</button>
+    <button class="nav-btn" data-view="result">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Итог и смета</button>
+    <button class="nav-btn" data-view="price">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18M3 12h18M3 19h18M9 5v14"/></svg>Прайс<span class="badge" id="navCount">—</span></button>
+    <button class="nav-btn" data-view="saved">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Расчёты клиентов<span class="badge" id="navSaved">0</span></button>
+    <div class="spacer"></div>
+    <div class="data-card">
+      <div class="label"><span class="dot"></span>Актуальный прайс</div>
+      <div class="file" id="dcFile">—</div>
+      <div class="meta" id="dcMeta">—</div>
+      <button class="btn primary" id="btnLoad">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Загрузить данные</button>
+      <button class="btn" id="btnLink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>Обновить по ссылке</button>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <!-- Главная -->
+    <section class="view active" id="view-home">
+      <div class="hero">
+        <svg class="house" viewBox="0 0 330 230" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="draw" d="M30 220h270" stroke="#323c50" stroke-width="2"/>
+          <path class="draw" d="M60 220V110l105-78 105 78v110" stroke="#f3a93b" stroke-width="2.5"/>
+          <path class="draw" d="M40 124L165 30l125 94" stroke="#ffc56b" stroke-width="3"/>
+          <path class="draw" d="M90 220V120M120 220V98M150 220V76M180 220V76M210 220V98M240 220V120" stroke="#5aa9ff" stroke-width="1.5" opacity=".55"/>
+          <path class="draw" d="M60 160h210M60 190h210M90 130l30 30M150 160l30-30M210 160l30 30" stroke="#5aa9ff" stroke-width="1.2" opacity=".35"/>
+          <rect class="draw" x="140" y="160" width="40" height="60" stroke="#e9edf5" stroke-width="2"/>
+          <rect class="draw" x="85" y="140" width="36" height="30" stroke="#e9edf5" stroke-width="2"/>
+          <rect class="draw" x="209" y="140" width="36" height="30" stroke="#e9edf5" stroke-width="2"/>
+        </svg>
+        <h1>Смета каркасного дома за 5 минут — по вашему прайсу</h1>
+        <p>Внесите пожелания клиента: площадь, фундамент, утепление, кровлю, фасад, отделку и инженерию. Калькулятор сам посчитает объёмы и стоимость по каждому разделу.</p>
+        <div class="row">
+          <button class="btn primary lg" id="btnStart">Начать расчёт
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn lg" data-go="price">Посмотреть прайс</button>
+        </div>
+      </div>
+      <div class="stats" id="homeStats"></div>
+      <div class="steps-how">
+        <div class="how"><b>1</b><div><strong>Загрузите прайс</strong><br>Таблица Excel с ценами: минимальная, базовая и максимальная цена позиции.</div></div>
+        <div class="how"><b>2</b><div><strong>Внесите пожелания</strong><br>8 шагов: объект, участок, фундамент, коробка, кровля, окна, отделка, инженерия.</div></div>
+        <div class="how"><b>3</b><div><strong>Проверьте итог</strong><br>Стоимость по разделам, цена за м², сравнение с рыночными ориентирами.</div></div>
+        <div class="how"><b>4</b><div><strong>Отдайте клиенту</strong><br>Экспорт сметы в Excel и PDF, расчёт сохраняется в карточку клиента.</div></div>
+      </div>
+    </section>
+
+    <!-- Калькулятор -->
+    <section class="view" id="view-calc">
+      <div class="page-head">
+        <div><h1>Расчёт стоимости</h1><p id="calcSub">Заполните шаги — итог пересчитывается сразу</p></div>
+        <div class="row"><button class="btn ghost" id="btnNew">Новый расчёт</button></div>
+      </div>
+      <div class="calc">
+        <div>
+          <div class="stepper" id="stepper"></div>
+          <div class="progress"><div id="progress"></div></div>
+          <div id="steps"></div>
+          <div class="step-nav">
+            <button class="btn" id="btnPrev">← Назад</button>
+            <button class="btn primary" id="btnNext">Далее →</button>
+          </div>
+        </div>
+        <aside class="summary" id="summary"></aside>
+      </div>
+    </section>
+
+    <!-- Итог -->
+    <section class="view" id="view-result"></section>
+
+    <!-- Прайс -->
+    <section class="view" id="view-price"></section>
+
+    <!-- Сохранённые -->
+    <section class="view" id="view-saved"></section>
+  </main>
+</div>
+
+<div class="modal-bg" id="modal"><div class="modal" id="modalBox"></div></div>
+<div class="toasts" id="toasts"></div>
+<div class="tip" id="tip"></div>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

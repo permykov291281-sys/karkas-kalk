@@ -1,0 +1,10 @@
+node_modules/
+dist/
+out/
+*.exe
+*.zip
+*.blockmap
+*.AppImage
+.DS_Store
+Thumbs.db
+*.log
